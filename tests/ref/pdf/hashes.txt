@@ -188,6 +188,7 @@ ebc0734f3e57e8db019e8103132b6dce eval-in-show-rule
 d0a7a4df37c93ba5650b714e6b266853 eval-mode
 7182ec4300c78e0d62281b6511e7886a eval-path-resolve
 77717c2a79428672b2a8ae65286d2fbf eval-path-resolve-in-show-rule
+b98b72901e8297e2936683417148a8c1 exec-stderr
 16834d0ca1028624cc1486faa441d915 field-function
 5d05f4729af6f7cc32fc41c0a4314b25 figure-align
 9e347f7733a7f8b39a2c7df2ddafdbce figure-and-caption-show

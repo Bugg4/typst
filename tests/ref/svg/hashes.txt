@@ -188,6 +188,7 @@ feaacf6adc7f48bc41901059d0d34485 enum-syntax-edge-cases
 3dc275d0b20f0860e4989b24c957024c eval-mode
 8b3fe3d61e7f04682272804bb180f633 eval-path-resolve
 8b3fe3d61e7f04682272804bb180f633 eval-path-resolve-in-show-rule
+1beeb427a57bc8ba52382bb5577bbfc5 exec-stderr
 81cde758cf65da23868a0f2e933a2461 field-function
 2b178eb69d873e6f5d8821c0b902e8f4 figure-align
 bb54e9a1cf87dffe07a3d38de6ceeca5 figure-and-caption-show

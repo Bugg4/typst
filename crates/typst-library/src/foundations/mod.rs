@@ -1,4 +1,4 @@
-//! Foundational types and functions.
+ty//! Foundational types and functions.
 
 pub mod calc;
 pub mod ops;
@@ -17,6 +17,8 @@ mod datetime;
 mod decimal;
 mod dict;
 mod duration;
+#[path = "exec.rs"]
+mod exec_;
 mod fields;
 mod float;
 mod func;
@@ -49,6 +51,7 @@ pub use self::datetime::*;
 pub use self::decimal::*;
 pub use self::dict::*;
 pub use self::duration::*;
+pub use self::exec_::*;
 pub use self::fields::*;
 pub use self::float::*;
 pub use self::func::*;
@@ -116,6 +119,7 @@ pub(super) fn define(global: &mut Scope, inputs: Dict, features: &Features) {
     global.define_func::<assert>();
     global.define_func::<eval>();
     global.define_func::<plugin>();
+    global.define_func::<exec>();
     if features.is_enabled(Feature::Html) {
         global.define_func::<target>();
     }
