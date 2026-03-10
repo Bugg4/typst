@@ -249,6 +249,7 @@ impl FromIterator<Feature> for Features {
 pub enum Feature {
     Html,
     A11yExtras,
+    Exec,
 }
 
 /// A group of related standard library definitions.

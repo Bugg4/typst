@@ -2,10 +2,12 @@ use std::process::Command;
 
 use typst_syntax::Spanned;
 
+use crate::World;
 use crate::diag::{SourceResult, bail, warning};
 use crate::engine::Engine;
 use crate::foundations::{Content, Str, cast, func};
 use crate::text::RawElem;
+use crate::Feature;
 
 /// A command source: either a plain string or raw content.
 pub enum ExecCommand {
@@ -52,7 +54,7 @@ cast! {
 /// triple backticks). The latter is useful for multi-line shell scripts.
 ///
 /// Note: This function allows executing arbitrary code on the system the 
-/// compiler is running on.
+/// compiler is running on. It requires the `--allow-exec` flag to be set.
 ///
 /// # Example
 /// ```example
@@ -65,6 +67,10 @@ pub fn exec(
     /// The string or raw content to execute as a shell command.
     command: Spanned<ExecCommand>,
 ) -> SourceResult<Str> {
+    if !engine.world.library().features.is_enabled(Feature::Exec) {
+        bail!(command.span, "exec() requires the --allow-exec flag or --features=exec");
+    }
+
     let result = Command::new("sh").arg("-c").arg(command.v.as_str()).output();
 
     match result {

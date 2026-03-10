@@ -66,7 +66,9 @@ impl SystemWorld {
                 .map(|&feature| match feature {
                     Feature::Html => typst::Feature::Html,
                     Feature::A11yExtras => typst::Feature::A11yExtras,
+                    Feature::Exec => typst::Feature::Exec,
                 })
+                .chain(process_args.allow_exec.then_some(typst::Feature::Exec))
                 .collect();
 
             Library::builder().with_inputs(inputs).with_features(features).build()

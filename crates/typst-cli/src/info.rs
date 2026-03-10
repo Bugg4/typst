@@ -110,16 +110,18 @@ impl Settings {
 struct Features {
     html: bool,
     a11y_extras: bool,
+    exec: bool,
 }
 
 impl Features {
     /// Return the runtime features with human readable information.
     fn features(&self) -> impl Iterator<Item = KeyValDesc<'_>> {
-        let Self { html, a11y_extras } = self;
+        let Self { html, a11y_extras, exec } = self;
 
         [
             ("html", html, "Experimental HTML support"),
             ("a11y-extras", a11y_extras, "Experimental accessibility additions"),
+            ("exec", exec, "Allow execution of external commands"),
         ]
         .into_iter()
         .map(|(key, val, desc)| KeyValDesc { key, val: Value::Bool(*val), desc })
@@ -417,13 +419,14 @@ fn get_vars() -> StrResult<Environment> {
 /// Turns a comma separated list of feature names into a well typed struct of
 /// feature flags.
 fn parse_features(feature_list: &str) -> StrResult<Features> {
-    let mut features = Features { html: false, a11y_extras: false };
+    let mut features = Features { html: false, a11y_extras: false, exec: false };
 
     for feature in feature_list.split(',').filter(|s| !s.is_empty()) {
         match Feature::from_str(feature, true) {
             Ok(feature) => match feature {
                 Feature::Html => features.html = true,
                 Feature::A11yExtras => features.a11y_extras = true,
+                Feature::Exec => features.exec = true,
             },
             Err(_) => {
                 crate::print_error(&format!("Unknown runtime feature: `{feature}`"))

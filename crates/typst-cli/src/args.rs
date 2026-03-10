@@ -435,6 +435,10 @@ pub struct ProcessArgs {
     #[arg(long = "features", value_delimiter = ',', env = "TYPST_FEATURES")]
     pub features: Vec<Feature>,
 
+    /// Allow execution of external commands via the exec() function.
+    #[arg(long, env = "TYPST_ALLOW_EXEC", action = ArgAction::SetTrue)]
+    pub allow_exec: bool,
+
     /// The format to emit diagnostics in.
     #[clap(long, default_value_t)]
     pub diagnostic_format: DiagnosticFormat,
@@ -651,6 +655,7 @@ display_possible_values!(DiagnosticFormat);
 pub enum Feature {
     Html,
     A11yExtras,
+    Exec,
 }
 
 display_possible_values!(Feature);
