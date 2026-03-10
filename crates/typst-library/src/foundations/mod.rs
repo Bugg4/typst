@@ -1,4 +1,4 @@
-ty//! Foundational types and functions.
+//! Foundational types and functions.
 
 pub mod calc;
 pub mod ops;

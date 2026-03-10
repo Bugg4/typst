@@ -4,7 +4,40 @@ use typst_syntax::Spanned;
 
 use crate::diag::{SourceResult, bail, warning};
 use crate::engine::Engine;
-use crate::foundations::{Str, func};
+use crate::foundations::{Content, Str, cast, func};
+use crate::text::RawElem;
+
+/// A command source: either a plain string or raw content.
+pub enum ExecCommand {
+    String(String),
+    Raw(String),
+}
+
+impl ExecCommand {
+    fn as_str(&self) -> &str {
+        match self {
+            Self::String(s) | Self::Raw(s) => s,
+        }
+    }
+}
+
+cast! {
+    ExecCommand,
+    self => match self {
+        Self::String(s) => s.into_value(),
+        Self::Raw(s) => s.into_value(),
+    },
+    v: String => Self::String(v),
+    v: Content => {
+        if !v.is::<RawElem>() {
+            return Err(ecow::eco_format!(
+                "expected string or raw content, found {}",
+                v.elem().name()
+            ).into());
+        }
+        Self::Raw(v.plain_text().into())
+    },
+}
 
 /// Executes an external shell script and returns its standard output.
 ///
@@ -14,6 +47,9 @@ use crate::foundations::{Str, func};
 /// the command writes anything to standard error, it will emit compiler 
 /// warnings. If the command fails (non-zero exit code or other errors), 
 /// compilation will fail with an error.
+///
+/// You can pass either a plain string or a raw text block (enclosed in
+/// triple backticks). The latter is useful for multi-line shell scripts.
 ///
 /// Note: This function allows executing arbitrary code on the system the 
 /// compiler is running on.
@@ -26,10 +62,10 @@ use crate::foundations::{Str, func};
 #[func]
 pub fn exec(
     engine: &mut Engine,
-    /// The string to execute as a shell command.
-    command: Spanned<String>,
+    /// The string or raw content to execute as a shell command.
+    command: Spanned<ExecCommand>,
 ) -> SourceResult<Str> {
-    let result = Command::new("sh").arg("-c").arg(&command.v).output();
+    let result = Command::new("sh").arg("-c").arg(command.v.as_str()).output();
 
     match result {
         Ok(output) => {
