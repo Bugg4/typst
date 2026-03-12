@@ -87,7 +87,7 @@ use typst_syntax::{RootedPath, Spanned, SyntaxMode};
 
 use crate::diag::{SourceResult, StrResult, bail};
 use crate::engine::Engine;
-use crate::introspection::Introspector;
+use crate::introspection::EmptyIntrospector;
 use crate::{Feature, Features};
 
 /// Hook up all `foundations` definitions.
@@ -315,7 +315,7 @@ pub fn eval(
         // the context and introspector in the future, to allow introspection
         // when calling `eval` from within a context expression, but this should
         // be well-considered.
-        Introspector::default().track(),
+        EmptyIntrospector.track(),
         Context::none().track(),
         &text,
         span,

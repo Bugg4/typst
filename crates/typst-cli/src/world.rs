@@ -379,3 +379,13 @@ impl From<WorldCreationError> for EcoString {
         eco_format!("{err}")
     }
 }
+
+impl From<Feature> for typst::Feature {
+    fn from(feature: Feature) -> Self {
+        match feature {
+            Feature::Html => typst::Feature::Html,
+            Feature::Bundle => typst::Feature::Bundle,
+            Feature::A11yExtras => typst::Feature::A11yExtras,
+        }
+    }
+}

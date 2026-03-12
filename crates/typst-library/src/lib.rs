@@ -227,6 +227,16 @@ impl LibraryBuilder {
 pub struct Features(SmallBitSet);
 
 impl Features {
+    /// Creates an instance where all features are enabled.
+    pub fn all() -> Self {
+        Feature::all().collect()
+    }
+
+    /// Creates an instance where no features are enabled.
+    pub fn none() -> Self {
+        Self::default()
+    }
+
     /// Check whether the given feature is enabled.
     pub fn is_enabled(&self, feature: Feature) -> bool {
         self.0.contains(feature as usize)
@@ -248,8 +258,16 @@ impl FromIterator<Feature> for Features {
 #[non_exhaustive]
 pub enum Feature {
     Html,
+    Bundle,
     A11yExtras,
     Exec,
+}
+
+impl Feature {
+    /// Iterates over all available features.
+    pub fn all() -> impl Iterator<Item = Self> {
+        [Self::Html, Self::Bundle, Self::A11yExtras].into_iter()
+    }
 }
 
 /// A group of related standard library definitions.
@@ -269,6 +287,7 @@ pub enum Category {
     Html,
     Svg,
     Png,
+    Bundle,
 }
 
 impl Category {
@@ -288,6 +307,7 @@ impl Category {
             Self::Html => "html",
             Self::Svg => "svg",
             Self::Png => "png",
+            Self::Bundle => "bundle",
         }
     }
 }
@@ -302,7 +322,7 @@ fn global(
     let mut global = Scope::deduplicating();
 
     self::foundations::define(&mut global, inputs, features);
-    self::model::define(&mut global);
+    self::model::define(&mut global, features);
     self::text::define(&mut global);
     self::layout::define(&mut global);
     self::visualize::define(&mut global);

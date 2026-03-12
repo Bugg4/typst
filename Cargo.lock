@@ -463,9 +463,9 @@ checksum = "5b63caa9aa9397e2d9480a9b13673856c78d8ac123288526c37d7839f2a86990"
 
 [[package]]
 name = "comemo"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "649d7b2d867b569729c03c0f6968db10bc95921182a1f2b2012b1b549492f39d"
+checksum = "3c963350b2b08aa4b725d7802593245380ab53dacfedcaa971385fc33306c0d4"
 dependencies = [
  "comemo-macros",
  "parking_lot",
@@ -476,9 +476,9 @@ dependencies = [
 
 [[package]]
 name = "comemo-macros"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "51c87fc7e85487493ddedae1a3a34b897c77ad8825375b79265a8a162c28d535"
+checksum = "a3c400139ba1389ef9e20ad2d87cda68b437a66483aa0da616bdf2cea7413853"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2965,6 +2965,28 @@ version = "0.14.2"
 source = "git+https://github.com/typst/typst-assets?rev=57a38ca#57a38ca98236748ad83c806a48096b281686a7de"
 
 [[package]]
+name = "typst-bundle"
+version = "0.14.2"
+dependencies = [
+ "comemo",
+ "ecow",
+ "either",
+ "indexmap",
+ "rayon",
+ "rustc-hash",
+ "typst-html",
+ "typst-layout",
+ "typst-library",
+ "typst-macros",
+ "typst-pdf",
+ "typst-render",
+ "typst-svg",
+ "typst-syntax",
+ "typst-timing",
+ "typst-utils",
+]
+
+[[package]]
 name = "typst-cli"
 version = "0.14.2"
 dependencies = [
@@ -2994,10 +3016,12 @@ dependencies = [
  "tempfile",
  "toml",
  "typst",
+ "typst-bundle",
  "typst-dev-assets",
  "typst-eval",
  "typst-html",
  "typst-kit",
+ "typst-layout",
  "typst-macros",
  "typst-pdf",
  "typst-render",
@@ -3032,6 +3056,7 @@ dependencies = [
  "typst",
  "typst-assets",
  "typst-dev-assets",
+ "typst-layout",
  "typst-render",
  "typst-utils",
  "unicode-math-class",
@@ -3065,6 +3090,7 @@ dependencies = [
  "typst",
  "typst-assets",
  "typst-html",
+ "typst-layout",
  "typst-pdf",
  "typst-render",
  "typst-svg",
@@ -3104,6 +3130,7 @@ dependencies = [
  "typst-dev-assets",
  "typst-eval",
  "typst-html",
+ "typst-layout",
  "unscanny",
 ]
 
@@ -3118,6 +3145,7 @@ dependencies = [
  "fastrand",
  "flate2",
  "fontdb",
+ "infer",
  "native-tls",
  "notify",
  "once_cell",
@@ -3267,6 +3295,7 @@ dependencies = [
  "serde",
  "smallvec",
  "typst-assets",
+ "typst-layout",
  "typst-library",
  "typst-macros",
  "typst-syntax",
@@ -3304,6 +3333,7 @@ dependencies = [
  "tiny-skia",
  "ttf-parser",
  "typst-assets",
+ "typst-layout",
  "typst-library",
  "typst-macros",
  "typst-timing",
@@ -3326,6 +3356,7 @@ dependencies = [
  "ryu",
  "ttf-parser",
  "typst-assets",
+ "typst-layout",
  "typst-library",
  "typst-macros",
  "typst-timing",
@@ -3374,14 +3405,17 @@ dependencies = [
  "serde_yaml",
  "similar",
  "smallvec",
+ "tar",
  "time",
  "tiny-skia",
  "typst",
  "typst-assets",
+ "typst-bundle",
  "typst-dev-assets",
  "typst-eval",
  "typst-html",
  "typst-kit",
+ "typst-layout",
  "typst-library",
  "typst-pdf",
  "typst-render",
