@@ -131,7 +131,13 @@ pub enum RealizationKind<'a> {
     /// A nested realization in a container (e.g. a `block`). Requires a mutable
     /// reference to an enum that will be set to `FragmentKind::Inline` if the
     /// fragment's content was fully inline.
-    HtmlFragment { kind: &'a mut FragmentKind, is_phrasing: fn(&Content) -> bool },
+    ///
+    /// If `par` is false, paragraph grouping is disabled within the fragment.
+    HtmlFragment {
+        kind: &'a mut FragmentKind,
+        is_phrasing: fn(&Content) -> bool,
+        par: bool,
+    },
     /// A realization within math.
     Math,
 }

@@ -181,6 +181,7 @@ fn handle_html_elem(
             styles
         };
 
+        let par = elem.tag != tag::head;
         if tag::is_block_by_default(elem.tag) {
             children = html_block_fragment(
                 converter.engine,
@@ -188,6 +189,7 @@ fn handle_html_elem(
                 converter.locator.next(&elem.span()),
                 styles,
                 whitespace,
+                par,
             )?;
 
             // Block-level elements reset the inline state. This part is
@@ -203,6 +205,7 @@ fn handle_html_elem(
                 converter.quoter,
                 styles,
                 whitespace,
+                par,
             )?;
         }
     }

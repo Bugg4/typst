@@ -58,7 +58,8 @@ pub fn realize<'a>(
             RealizationKind::LayoutFragment { .. } => LAYOUT_RULES,
             RealizationKind::LayoutPar => LAYOUT_PAR_RULES,
             RealizationKind::HtmlDocument { .. } => HTML_DOCUMENT_RULES,
-            RealizationKind::HtmlFragment { .. } => HTML_FRAGMENT_RULES,
+            RealizationKind::HtmlFragment { par: true, .. } => HTML_FRAGMENT_RULES,
+            RealizationKind::HtmlFragment { par: false, .. } => HTML_METADATA_RULES,
             RealizationKind::Math => MATH_RULES,
         },
         sink: vec![],
@@ -935,9 +936,13 @@ static LAYOUT_PAR_RULES: &[&GroupingRule] = &[&TEXTUAL, &CITES, &LIST, &ENUM, &T
 static HTML_DOCUMENT_RULES: &[&GroupingRule] =
     &[&TEXTUAL, &PAR, &CITES, &LIST, &ENUM, &TERMS];
 
-/// Grouping rules used in HTML fragment realization.
 static HTML_FRAGMENT_RULES: &[&GroupingRule] =
     &[&TEXTUAL, &PAR, &CITES, &LIST, &ENUM, &TERMS];
+
+/// Grouping rules used in HTML fragment realization that should not contain
+/// paragraphs (e.g. metadata in the `<head>`).
+static HTML_METADATA_RULES: &[&GroupingRule] =
+    &[&TEXTUAL, &CITES, &LIST, &ENUM, &TERMS];
 
 /// Grouping rules used in math realization.
 static MATH_RULES: &[&GroupingRule] = &[&CITES, &LIST, &ENUM, &TERMS];

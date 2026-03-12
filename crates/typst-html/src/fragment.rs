@@ -21,6 +21,7 @@ pub fn html_block_fragment(
     locator: Locator,
     styles: StyleChain,
     whitespace: Whitespace,
+    par: bool,
 ) -> SourceResult<EcoVec<HtmlNode>> {
     html_block_fragment_impl(
         engine.routines,
@@ -33,6 +34,7 @@ pub fn html_block_fragment(
         locator.track(),
         styles,
         whitespace,
+        par,
     )
 }
 
@@ -50,6 +52,7 @@ fn html_block_fragment_impl(
     locator: Tracked<Locator>,
     styles: StyleChain,
     whitespace: Whitespace,
+    par: bool,
 ) -> SourceResult<EcoVec<HtmlNode>> {
     let introspector = Protected::from_raw(introspector);
     let link = LocatorLink::new(locator);
@@ -66,7 +69,7 @@ fn html_block_fragment_impl(
     engine.route.check_html_depth().at(content.span())?;
 
     let arenas = Arenas::default();
-    let children = realize_fragment(&mut engine, &mut locator, &arenas, content, styles)?;
+    let children = realize_fragment(&mut engine, &mut locator, &arenas, content, styles, par)?;
     crate::convert::convert_to_nodes(
         &mut engine,
         &mut locator,
@@ -92,12 +95,13 @@ pub fn html_inline_fragment(
     quoter: &mut SmartQuoter,
     styles: StyleChain,
     whitespace: Whitespace,
+    par: bool,
 ) -> SourceResult<EcoVec<HtmlNode>> {
     engine.route.increase();
     engine.route.check_html_depth().at(content.span())?;
 
     let arenas = Arenas::default();
-    let children = realize_fragment(engine, locator, &arenas, content, styles)?;
+    let children = realize_fragment(engine, locator, &arenas, content, styles, par)?;
     let result = crate::convert::convert_to_nodes(
         engine,
         locator,
@@ -117,12 +121,14 @@ fn realize_fragment<'a>(
     arenas: &'a Arenas,
     content: &'a Content,
     styles: StyleChain<'a>,
+    par: bool,
 ) -> SourceResult<Vec<Pair<'a>>> {
     (engine.routines.realize)(
         RealizationKind::HtmlFragment {
             // We ignore the `FragmentKind` because we handle both uniformly.
             kind: &mut FragmentKind::Block,
             is_phrasing: HtmlElem::is_phrasing,
+            par,
         },
         engine,
         locator,

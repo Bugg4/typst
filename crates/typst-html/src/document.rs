@@ -267,6 +267,7 @@ fn finalize_dom(
             footnote_locator,
             footnote_styles,
             Whitespace::Normal,
+            true,
         )?;
         body.children.extend(footnotes);
         eco_vec![body.into()]
