@@ -266,7 +266,7 @@ pub enum Feature {
 impl Feature {
     /// Iterates over all available features.
     pub fn all() -> impl Iterator<Item = Self> {
-        [Self::Html, Self::Bundle, Self::A11yExtras].into_iter()
+        [Self::Html, Self::Bundle, Self::A11yExtras, Self::Exec].into_iter()
     }
 }
 

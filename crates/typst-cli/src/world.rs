@@ -65,6 +65,7 @@ impl SystemWorld {
                 .iter()
                 .map(|&feature| match feature {
                     Feature::Html => typst::Feature::Html,
+                    Feature::Bundle => typst::Feature::Bundle,
                     Feature::A11yExtras => typst::Feature::A11yExtras,
                     Feature::Exec => typst::Feature::Exec,
                 })
@@ -386,6 +387,7 @@ impl From<Feature> for typst::Feature {
             Feature::Html => typst::Feature::Html,
             Feature::Bundle => typst::Feature::Bundle,
             Feature::A11yExtras => typst::Feature::A11yExtras,
+            Feature::Exec => typst::Feature::Exec,
         }
     }
 }

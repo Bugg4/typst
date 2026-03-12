@@ -117,7 +117,7 @@ struct Features {
 impl Features {
     /// Return the runtime features with human readable information.
     fn features(&self) -> impl Iterator<Item = KeyValDesc<'_>> {
-        let Self { html, bundle, a11y_extras } = self;
+        let Self { html, bundle, a11y_extras, exec } = self;
         [
             ("html", html, "Experimental HTML export"),
             ("bundle", bundle, "Experimental bundle export"),
@@ -420,7 +420,7 @@ fn get_vars() -> StrResult<Environment> {
 /// Turns a comma separated list of feature names into a well typed struct of
 /// feature flags.
 fn parse_features(feature_list: &str) -> StrResult<Features> {
-    let mut features = Features { html: false, bundle: false, a11y_extras: false };
+    let mut features = Features { html: false, bundle: false, a11y_extras: false, exec: false };
 
     for feature in feature_list.split(',').filter(|s| !s.is_empty()) {
         match Feature::from_str(feature, true) {
