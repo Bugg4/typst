@@ -282,6 +282,7 @@ pub fn is_phrasing_content(tag: HtmlTag) -> bool {
             | self::area
             | self::audio
             | self::b
+            | self::base
             | self::bdi
             | self::bdo
             | self::br
@@ -321,11 +322,13 @@ pub fn is_phrasing_content(tag: HtmlTag) -> bool {
             | self::slot
             | self::small
             | self::span
+            | self::style
             | self::strong
             | self::sub
             | self::sup
             | self::template
             | self::textarea
+            | self::title
             | self::time
             | self::u
             | self::var
